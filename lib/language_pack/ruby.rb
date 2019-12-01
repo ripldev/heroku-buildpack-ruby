@@ -100,7 +100,7 @@ WARNING
       setup_profiled
       allow_git do
         install_bundler_in_app
-        build_bundler("development:test")
+        build_bundler()
         post_bundler
         create_database_yml
         install_binaries
@@ -731,7 +731,7 @@ BUNDLE
   end
 
   # runs bundler to install the dependencies
-  def build_bundler(default_bundle_without)
+  def build_bundler()
     instrument 'ruby.build_bundler' do
       topic("Removing BUNDLED WITH version in the Gemfile.lock")
       contents = File.read("Gemfile.lock")
@@ -740,9 +740,8 @@ BUNDLE
       end
 
       log("bundle") do
-        bundle_without = env("BUNDLE_WITHOUT") || default_bundle_without
         bundle_bin     = "bundle"
-        bundle_command = "#{bundle_bin} install --without #{bundle_without} --path vendor/bundle --binstubs #{bundler_binstubs_path}"
+        bundle_command = "#{bundle_bin} install --path vendor/bundle --binstubs #{bundler_binstubs_path}"
         bundle_command << " -j4"
 
         if File.exist?("#{Dir.pwd}/.bundle/config")

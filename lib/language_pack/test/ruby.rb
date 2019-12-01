@@ -12,7 +12,7 @@ class LanguagePack::Ruby
       setup_profiled
       allow_git do
         install_bundler_in_app
-        build_bundler("development")
+        build_bundler()
         post_bundler
         create_database_yml
         install_binaries
